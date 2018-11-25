@@ -1,0 +1,38 @@
+<?php
+//error_reporting(E_ALL);
+require_once ('ActiveResource.php');
+require_once ('config.php');
+class Project extends ActiveResource {  
+	public $site = 'http://'.USERNAME.':'.PASSWORD.'@'.DB_HOST_NAME.'/'.REDMINE.'/';
+	
+        
+       public $element_name = 'project';
+   
+	function getProjectList() {
+	
+		$projectArray = [];
+
+		$project = new Project ();
+
+      		$projects = $project->find ('all');
+                
+                // echo "<pre>";
+		// print_r($projects);exit;
+
+		for ($i=0; $i < count($projects); $i++) {
+		      // print_r($projects[$i]); exit;
+		    	// echo $projects[$i]->name;
+			
+			if(gettype($projects[$i]->parent) != object){
+				array_push($projectArray[$projects[$i]->id] = $projects[$i]->name);
+			}
+
+		}
+
+		return $projectArray;
+	
+	}
+}
+
+?>
+
